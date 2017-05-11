@@ -25,7 +25,7 @@ export type ABTest = {
     variants: Array<Variant>,
     dataLinkNames?: string,
     idealOutcome?: string,
-    variants: Array<VariantConfig>,
+    variants: Array<Variant>,
     canRun: () => boolean,
     notInTest?: () => void,
 };
