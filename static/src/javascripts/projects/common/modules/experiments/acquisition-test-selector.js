@@ -10,38 +10,36 @@ import acquisitionsEpicTestimonials from 'common/modules/experiments/tests/acqui
 /**
  * acquisition tests in priority order (highest to lowest)
  */
-var tests = [
+const tests = [
     acquisitionsEpicTestimonials,
     alwaysAsk,
     askFourEarning,
     acquisitionsEpicLiveBlog
 ];
 
-var epicEngagementBannerTests = reduce(tests, function(out, test) {
-    var testInstance = new test();
+const epicEngagementBannerTests = reduce(tests, (out, test) => {
+    const testInstance = new test();
     if (testInstance.isEngagementBannerTest) {
         out.push(testInstance)
     }
     return out;
 }, []);
 
-var abTestClashData = tests.map(function(test) {
-    return new test();
-});
+const abTestClashData = tests.map(test => new test());
 
 export default {
 
-    epicEngagementBannerTests: epicEngagementBannerTests,
+    epicEngagementBannerTests,
 
-    abTestClashData: abTestClashData,
+    abTestClashData,
 
-    getTest: function() {
-        var eligibleTests = tests.filter(function(test) {
-            var t = new test();
-            var forced = window.location.hash.indexOf('ab-' + t.id) > -1;
-            var variant = segmentUtil.variantFor(t);
+    getTest() {
+        const eligibleTests = tests.filter(test => {
+            const t = new test();
+            const forced = window.location.hash.indexOf('ab-' + t.id) > -1;
+            const variant = segmentUtil.variantFor(t);
 
-            var hasNotReachedRateLimit = variant &&
+            const hasNotReachedRateLimit = variant &&
                 ((viewLog.viewsInPreviousDays(variant.maxViews.days) < variant.maxViews.count &&
                         viewLog.viewsInPreviousDays(variant.maxViews.minDaysBetweenViews) === 0) ||
                     variant.isUnlimited);
