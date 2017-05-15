@@ -8,6 +8,12 @@ export type Variant = {
     impression?: ListenerFunction,
     success?: ListenerFunction,
     campaignCodes?: Array<string>,
+    maxViews?: {
+        days: number,
+        count: number,
+        minDaysBetweenViews: number,
+    },
+    isUnlimited?: boolean,
 };
 
 export type ABTest = {

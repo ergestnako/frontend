@@ -1,4 +1,6 @@
 // @flow
+import type { ABTest } from 'common/modules/experiments/ab-types';
+
 import { local } from 'lib/storage';
 
 const viewKey = 'gu.contributions.views';
@@ -12,7 +14,7 @@ const maxLogEntries = 50;
  *
  * @param testId
  */
-export const logView = testId => {
+export const logView = (testId: string) => {
     viewLog.push({
         date: new Date().getTime(),
         testId,
@@ -21,7 +23,7 @@ export const logView = testId => {
     local.set(viewKey, viewLog.slice(-maxLogEntries));
 };
 
-export const viewsInPreviousDays = (days, test) => {
+export const viewsInPreviousDays = (days: number, test: ?ABTest) => {
     const ms = days * 1000 * 60 * 60 * 24;
     const now = new Date().getTime();
 

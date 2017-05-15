@@ -8,7 +8,7 @@ const BROWSER_ID_COOKIE = 'bwid';
 const MAX_CLIENT_MVT_ID = 1000000;
 
 // For test purposes only.
-export const overwriteMvtCookie = testId =>
+export const overwriteMvtCookie = (testId: string) =>
     cookies.addCookie(MULTIVARIATE_ID_COOKIE, testId, 365);
 
 export const getMvtValue = () => cookies.getCookie(MULTIVARIATE_ID_COOKIE);
