@@ -1,10 +1,10 @@
+// @flow
 import memoize from 'lodash/functions/memoize';
-import mvtCookie from 'common/modules/analytics/mvt-cookie';
+import * as mvtCookie from 'common/modules/analytics/mvt-cookie';
+
 const NOT_IN_TEST = 'notintest';
 
-function getId(test) {
-    return test.id; // use test ids as memo cache keys
-}
+const getId = test => test.id; // use test ids as memo cache keys
 
 /**
  * Determine whether the user is in the test or not and return the associated
@@ -15,34 +15,31 @@ function getId(test) {
  *
  * @return {String} variant ID
  */
-function variantIdFor(test) {
+const computeVariantIdFor = test => {
     const smallestTestId = mvtCookie.getMvtNumValues() * test.audienceOffset;
-    const largestTestId = smallestTestId + mvtCookie.getMvtNumValues() * test.audience;
+    const largestTestId =
+        smallestTestId + mvtCookie.getMvtNumValues() * test.audience;
     const mvtCookieId = mvtCookie.getMvtValue();
 
-    if (mvtCookieId && mvtCookieId > smallestTestId && mvtCookieId <= largestTestId) {
+    if (
+        mvtCookieId &&
+        mvtCookieId > smallestTestId &&
+        mvtCookieId <= largestTestId
+    ) {
         // This mvt test id is in the test range, so allocate it to a test variant.
         const variantIds = test.variants.map(getId);
 
         return variantIds[mvtCookieId % variantIds.length];
-    } else {
-        return NOT_IN_TEST;
     }
-}
 
-function variantFor(test) {
+    return NOT_IN_TEST;
+};
+
+export const variantIdFor = memoize(computeVariantIdFor, getId);
+
+export const isInTest = test => variantIdFor(test) !== NOT_IN_TEST;
+
+export const variantFor = test => {
     const variantId = variantIdFor(test);
-
     return test.variants.filter(variant => variant.id === variantId)[0];
-}
-
-
-export default {
-    variantIdFor: memoize(variantIdFor, getId),
-
-    variantFor,
-
-    isInTest(test) {
-        return variantIdFor(test) !== NOT_IN_TEST;
-    }
-}
+};
