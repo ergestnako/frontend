@@ -1,10 +1,10 @@
-import storage from 'lib/storage';
+// @flow
+import { local } from 'lib/storage';
 
-var viewKey = 'gu.contributions.views';
-var viewLog = storage.local.get(viewKey) || [];
+const viewKey = 'gu.contributions.views';
+const viewLog = local.get(viewKey) || [];
 
-
-var maxLogEntries = 50;
+const maxLogEntries = 50;
 
 /**
  * Log that the user has seen an Epic test so we can limit how many times they see it.
@@ -12,24 +12,20 @@ var maxLogEntries = 50;
  *
  * @param testId
  */
-function logView(testId) {
+export const logView = testId => {
     viewLog.push({
         date: new Date().getTime(),
-        testId: testId
+        testId,
     });
-    storage.local.set(viewKey, viewLog.slice(-maxLogEntries));
-}
 
-function viewsInPreviousDays(days, test) {
-    var ms = days * 1000 * 60 * 60 * 24;
-    var now = new Date().getTime();
+    local.set(viewKey, viewLog.slice(-maxLogEntries));
+};
 
-    return viewLog.filter(function(view) {
-        return (test ? view.testId === test.id : true) && view.date > (now - ms);
-    }).length;
-}
+export const viewsInPreviousDays = (days, test) => {
+    const ms = days * 1000 * 60 * 60 * 24;
+    const now = new Date().getTime();
 
-export default {
-    logView: logView,
-    viewsInPreviousDays: viewsInPreviousDays
-}
+    return viewLog.filter(
+        view => (test ? view.testId === test.id : true) && view.date > now - ms
+    ).length;
+};
