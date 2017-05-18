@@ -91,11 +91,11 @@ object `package` {
 
   def getTagContainerDefinition(page: ContentPage) = {
     if (page.item.tags.isContributorPage) {
-      slices.TagContainers.contributorTagPage
+      layout.slices.TagContainers.contributorTagPage
     } else if (page.item.tags.keywords.nonEmpty) {
-      slices.TagContainers.keywordPage
+      layout.slices.TagContainers.keywordPage
     } else {
-      slices.TagContainers.tagPage
+      layout.slices.TagContainers.tagPage
     }
   }
 
