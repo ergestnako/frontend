@@ -193,7 +193,7 @@ define([
         }
 
         // initialise email/outbrain check dispatcher
-        bootstrapContext('checkDispatcher', checkDispatcher.init);
+        bootstrapContext('checkDispatcher', checkDispatcher.initCheckDispatcher);
 
         // Mark the end of synchronous execution.
         userTiming.markTime('App End');

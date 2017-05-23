@@ -42,8 +42,7 @@
     "bootstraps/enhanced/facia.js",
     "bootstraps/enhanced/football.js",
     "projects/common/modules/video/onward-container.js",
-    "bootstraps/enhanced/gallery.js",
-    "projects/common/modules/check-dispatcher.js"
+    "bootstraps/enhanced/gallery.js"
   ],
   "Simon Adcock": [
     "projects/common/modules/ui/rhc.js",
